@@ -1,33 +1,37 @@
 import java.util.Scanner;
-public class Main {
-    public static void insertionSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int current = array[i];
-            int j = i - 1;
 
-            while (j >= 0 && array[j] > current) {
-                array[j + 1] = array[j];
-                j--;
+public class Main {
+
+    public static void SelectionSort(int[] numbers) {
+        for (int sortedPartSize = 0; sortedPartSize < numbers.length - 1; sortedPartSize++) {
+            int smallestIndex = sortedPartSize;
+            for (int j = sortedPartSize + 1; j < numbers.length; j++) {
+                if (numbers[j] < numbers[smallestIndex]) {
+                    smallestIndex = j;
+                }
             }
-            array[j + 1] = current;
+            if (smallestIndex != sortedPartSize) {
+                int temp = numbers[sortedPartSize];
+                numbers[sortedPartSize] = numbers[smallestIndex];
+                numbers[smallestIndex] = temp;
+            }
         }
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter the size of the array: ");
+        System.out.print("Enter Array size: ");
         int size = scanner.nextInt();
 
-        int[] array = new int[size];
-        System.out.println("Enter the elements of the array: ");
+        int[] numbers = new int[size];
+        System.out.println("Enter elements of array: ");
         for (int i = 0; i < size; i++) {
-            array[i] = scanner.nextInt();
+            numbers[i] = scanner.nextInt();
         }
 
-        insertionSort(array);
-        System.out.println("Sorted array: ");
-        for (int element : array) {
-            System.out.print(element + " ");
+        SelectionSort(numbers);
+        System.out.println("Sorted Array: ");
+        for (int number : numbers) {
+            System.out.print(number + " ");
         }
         System.out.println();
     }
