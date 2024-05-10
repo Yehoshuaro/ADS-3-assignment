@@ -1,49 +1,54 @@
 import java.util.Scanner;
 public class Main {
-    public static void mergeSort(int[] array) {
-        if (array.length > 1) {
-            int[] left = new int[array.length / 2];
-            int[] right = new int[array.length - left.length];
-            System.arraycopy(array, 0, left, 0, left.length);
-            System.arraycopy(array, left.length, right, 0, right.length);
+    public static void heapSort(int[] array) {
+        int n = array.length;
 
-            mergeSort(left);
-            mergeSort(right);
-            merge(array, left, right);
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(array, n, i);
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            int temp = array[0];
+            array[0] = array[i];
+            array[i] = temp;
+
+            heapify(array, i, 0);
         }
     }
-    private static void merge(int[] array, int[] left, int[] right) {
-        int i = 0; int j = 0; int k = 0;
+    private static void heapify(int[] array, int n, int i) {
+        int the_largest = i;
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
 
-        while (i < left.length && j < right.length) {
-            if (left[i] <= right[j]) {
-                array[k++] = left[i++];
-            }
-            else {
-                array[k++] = right[j++];
-            }
+        if (leftChild < n && array[leftChild] > array[the_largest]) {
+            the_largest = leftChild;
         }
-        while (i < left.length) {
-            array[k++] = left[i++];
+        if (rightChild < n && array[rightChild] > array[the_largest]) {
+            the_largest = rightChild;
         }
-        while (j < right.length) {
-            array[k++] = right[j++];
+        if (the_largest != i) {
+            int swap = array[i];
+            array[i] = array[the_largest];
+            array[the_largest] = swap;
+
+            heapify(array, n, the_largest);
         }
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the size of the Array: ");
+        System.out.print("Enter the size of the array: ");
         int size = scanner.nextInt();
 
         int[] array = new int[size];
-        System.out.println("Enter elements: ");
+        System.out.println("Enter the elements of the array: ");
         for (int i = 0; i < size; i++) {
             array[i] = scanner.nextInt();
         }
-        mergeSort(array);
-        System.out.println("Sorted Array:");
+
+        heapSort(array);
+        System.out.println("Sorted array: ");
         for (int i : array) {
             System.out.print(i + " ");
         }
     }
 }
+
